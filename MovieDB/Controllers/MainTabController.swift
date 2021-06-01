@@ -35,6 +35,7 @@ class MainTabController: UITabBarController {
     private func templateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController {
         
         let nav = UINavigationController(rootViewController: rootViewController)
+        nav.navigationBar.tintColor = .dbYellow
         nav.tabBarItem.image = image
         nav.tabBarItem.imageInsets = UIEdgeInsets(top: 14, left: 0, bottom: -14, right: 0)
         return nav

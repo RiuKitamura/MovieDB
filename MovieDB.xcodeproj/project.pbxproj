@@ -10,6 +10,11 @@
 		EC30B6AB26661A8400610219 /* PopularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6AA26661A8400610219 /* PopularViewController.swift */; };
 		EC30B6AE26661AD700610219 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6AD26661AD700610219 /* FavoriteViewController.swift */; };
 		EC30B6B22666508A00610219 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6B12666508A00610219 /* UIColor+Extension.swift */; };
+		EC30B6B62666650200610219 /* BannerListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6B52666650200610219 /* BannerListViewCell.swift */; };
+		EC30B6BA2666665100610219 /* PopularMoviesListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6B92666665100610219 /* PopularMoviesListViewCell.swift */; };
+		EC30B6BD266667CF00610219 /* ComingSoonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6BC266667CF00610219 /* ComingSoonListViewCell.swift */; };
+		EC30B6C226666A3700610219 /* ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6C126666A3700610219 /* ImageViewCell.swift */; };
+		EC30B6C926666BD000610219 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6C826666BD000610219 /* UIView+Extension.swift */; };
 		EC7F6C632666173000D396D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7F6C622666173000D396D7 /* AppDelegate.swift */; };
 		EC7F6C652666173000D396D7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7F6C642666173000D396D7 /* SceneDelegate.swift */; };
 		EC7F6C6D2666173000D396D7 /* MovieDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC7F6C6B2666173000D396D7 /* MovieDB.xcdatamodeld */; };
@@ -23,6 +28,11 @@
 		EC30B6AA26661A8400610219 /* PopularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularViewController.swift; sourceTree = "<group>"; };
 		EC30B6AD26661AD700610219 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		EC30B6B12666508A00610219 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		EC30B6B52666650200610219 /* BannerListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerListViewCell.swift; sourceTree = "<group>"; };
+		EC30B6B92666665100610219 /* PopularMoviesListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesListViewCell.swift; sourceTree = "<group>"; };
+		EC30B6BC266667CF00610219 /* ComingSoonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonListViewCell.swift; sourceTree = "<group>"; };
+		EC30B6C126666A3700610219 /* ImageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewCell.swift; sourceTree = "<group>"; };
+		EC30B6C826666BD000610219 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		EC7F6C5F2666173000D396D7 /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7F6C622666173000D396D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7F6C642666173000D396D7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,8 +59,20 @@
 			isa = PBXGroup;
 			children = (
 				EC30B6B12666508A00610219 /* UIColor+Extension.swift */,
+				EC30B6C826666BD000610219 /* UIView+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EC30B6B4266664CF00610219 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				EC30B6B52666650200610219 /* BannerListViewCell.swift */,
+				EC30B6B92666665100610219 /* PopularMoviesListViewCell.swift */,
+				EC30B6BC266667CF00610219 /* ComingSoonListViewCell.swift */,
+				EC30B6C126666A3700610219 /* ImageViewCell.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		EC7F6C562666173000D396D7 = {
@@ -72,8 +94,9 @@
 		EC7F6C612666173000D396D7 /* MovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				EC30B6B02666506A00610219 /* Extensions */,
 				EC7F6C7F2666191300D396D7 /* Controllers */,
+				EC30B6B4266664CF00610219 /* CustomViews */,
+				EC30B6B02666506A00610219 /* Extensions */,
 				EC7F6C622666173000D396D7 /* AppDelegate.swift */,
 				EC7F6C642666173000D396D7 /* SceneDelegate.swift */,
 				EC7F6C6E2666173100D396D7 /* Assets.xcassets */,
@@ -164,14 +187,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC30B6B62666650200610219 /* BannerListViewCell.swift in Sources */,
+				EC30B6C926666BD000610219 /* UIView+Extension.swift in Sources */,
 				EC30B6AB26661A8400610219 /* PopularViewController.swift in Sources */,
 				EC7F6C812666194100D396D7 /* HomeViewController.swift in Sources */,
 				EC7F6C632666173000D396D7 /* AppDelegate.swift in Sources */,
+				EC30B6C226666A3700610219 /* ImageViewCell.swift in Sources */,
 				EC30B6AE26661AD700610219 /* FavoriteViewController.swift in Sources */,
+				EC30B6BA2666665100610219 /* PopularMoviesListViewCell.swift in Sources */,
 				EC7F6C6D2666173000D396D7 /* MovieDB.xcdatamodeld in Sources */,
 				EC7F6C7D266617E400D396D7 /* MainTabController.swift in Sources */,
 				EC7F6C652666173000D396D7 /* SceneDelegate.swift in Sources */,
 				EC30B6B22666508A00610219 /* UIColor+Extension.swift in Sources */,
+				EC30B6BD266667CF00610219 /* ComingSoonListViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
