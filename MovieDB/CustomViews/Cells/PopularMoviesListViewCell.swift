@@ -13,6 +13,14 @@ class PopularMoviesListViewCell: UICollectionViewCell {
     
     static let identifier = "PopularMoviesListViewCell"
     
+    var viewModels: [MovieViewModel]? {
+        didSet {
+            if viewModels != nil {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Popular Movies"
@@ -68,15 +76,16 @@ class PopularMoviesListViewCell: UICollectionViewCell {
 extension PopularMoviesListViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let vms = viewModels else {
+            return 0
+        }
+        return vms.count > 10 ? 10 : vms.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageViewCell.identifier, for: indexPath) as! ImageViewCell
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = .blue
-        } else {
-            cell.backgroundColor = .white
+        if let vms = viewModels {
+            cell.viewModel = vms[indexPath.row]
         }
         return cell
     }

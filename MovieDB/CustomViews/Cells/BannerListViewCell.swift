@@ -10,8 +10,15 @@ import UIKit
 class BannerListViewCell: UICollectionViewCell {
     
     //MARK: - Properties
-    
     static let identifier = "BannerListViewCell"
+
+    var viewModels: [MovieViewModel]? {
+        didSet {
+            if viewModels != nil {
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,15 +63,16 @@ class BannerListViewCell: UICollectionViewCell {
 extension BannerListViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        guard let vms = viewModels else {
+            return 0
+        }
+        return vms.count > 3 ? 3 : vms.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageViewCell.identifier, for: indexPath) as! ImageViewCell
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = .blue
-        } else {
-            cell.backgroundColor = .white
+        if let vms = viewModels {
+            cell.viewModel = vms[indexPath.row]
         }
         return cell
     }

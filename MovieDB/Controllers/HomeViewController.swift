@@ -10,12 +10,16 @@ import UIKit
 
 class HomeViewController: UICollectionViewController {
     
+    //MARK: - Properties
+    private var homeViewModel = HomeListViewModel()
+    
     //MARK: - Lifeycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureCollectionView()
+        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,14 +33,6 @@ class HomeViewController: UICollectionViewController {
     }
     
     //MARK: - Helpers
-    
-//    private func configureNavigationBar() {
-//        let logo = UIImage(named: "Logo")
-//        let imageView = UIImageView(image: logo)
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imageView)
-//
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: nil, action: nil)
-//    }
     
     private func configureView() {
         let navigationView = NavigationView()
@@ -63,6 +59,14 @@ class HomeViewController: UICollectionViewController {
         self.collectionView!.register(PopularMoviesListViewCell.self, forCellWithReuseIdentifier: PopularMoviesListViewCell.identifier)
         self.collectionView!.register(ComingSoonListViewCell.self, forCellWithReuseIdentifier: ComingSoonListViewCell.identifier)
     }
+    
+    private func fetchData() {
+        homeViewModel.fetchMovie { (isSucces) in
+            if isSucces {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 
 }
 
@@ -74,7 +78,7 @@ extension HomeViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return homeViewModel.numberOfItemsInSection
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,12 +86,15 @@ extension HomeViewController {
         // Configure the cell
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerListViewCell.identifier, for: indexPath) as! BannerListViewCell
+            cell.viewModels = homeViewModel.bannerViewModels
             return cell
         } else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularMoviesListViewCell.identifier, for: indexPath) as! PopularMoviesListViewCell
+            cell.viewModels = homeViewModel.popularMovieViewModels
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComingSoonListViewCell.identifier, for: indexPath) as! ComingSoonListViewCell
+            cell.viewModels = homeViewModel.comingSoonViewModels
             return cell
         }
     }
