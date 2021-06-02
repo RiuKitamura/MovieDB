@@ -22,6 +22,16 @@
 		EC7F6C722666173100D396D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7F6C702666173100D396D7 /* LaunchScreen.storyboard */; };
 		EC7F6C7D266617E400D396D7 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7F6C7C266617E400D396D7 /* MainTabController.swift */; };
 		EC7F6C812666194100D396D7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7F6C802666194100D396D7 /* HomeViewController.swift */; };
+		ECBD57AA26672810008D451A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57A926672810008D451A /* SearchView.swift */; };
+		ECBD57AD26673B65008D451A /* PopularMovieViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57AC26673B65008D451A /* PopularMovieViewCell.swift */; };
+		ECBD57B026673FA7008D451A /* SearchHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57AF26673FA7008D451A /* SearchHeaderReusableView.swift */; };
+		ECBD57B826675CD9008D451A /* FavoriteMovieViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57B726675CD9008D451A /* FavoriteMovieViewCell.swift */; };
+		ECBD57BB26676978008D451A /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57BA26676978008D451A /* NavigationView.swift */; };
+		ECBD57BE26676BFA008D451A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57BD26676BFA008D451A /* DetailViewController.swift */; };
+		ECBD57C126677354008D451A /* MovieOverviewViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57C026677354008D451A /* MovieOverviewViewCell.swift */; };
+		ECBD57C42667A67A008D451A /* MovieDetailHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57C32667A67A008D451A /* MovieDetailHeaderReusableView.swift */; };
+		ECBD57C82667BC41008D451A /* CastListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57C72667BC41008D451A /* CastListViewCell.swift */; };
+		ECBD57CB2667BDCD008D451A /* CastViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBD57CA2667BDCD008D451A /* CastViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +52,16 @@
 		EC7F6C732666173100D396D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC7F6C7C266617E400D396D7 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		EC7F6C802666194100D396D7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		ECBD57A926672810008D451A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		ECBD57AC26673B65008D451A /* PopularMovieViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovieViewCell.swift; sourceTree = "<group>"; };
+		ECBD57AF26673FA7008D451A /* SearchHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderReusableView.swift; sourceTree = "<group>"; };
+		ECBD57B726675CD9008D451A /* FavoriteMovieViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieViewCell.swift; sourceTree = "<group>"; };
+		ECBD57BA26676978008D451A /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		ECBD57BD26676BFA008D451A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		ECBD57C026677354008D451A /* MovieOverviewViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieOverviewViewCell.swift; sourceTree = "<group>"; };
+		ECBD57C32667A67A008D451A /* MovieDetailHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailHeaderReusableView.swift; sourceTree = "<group>"; };
+		ECBD57C72667BC41008D451A /* CastListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastListViewCell.swift; sourceTree = "<group>"; };
+		ECBD57CA2667BDCD008D451A /* CastViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,10 +87,11 @@
 		EC30B6B4266664CF00610219 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				EC30B6B52666650200610219 /* BannerListViewCell.swift */,
-				EC30B6B92666665100610219 /* PopularMoviesListViewCell.swift */,
-				EC30B6BC266667CF00610219 /* ComingSoonListViewCell.swift */,
-				EC30B6C126666A3700610219 /* ImageViewCell.swift */,
+				ECBD57A8266727E2008D451A /* Cells */,
+				ECBD57A926672810008D451A /* SearchView.swift */,
+				ECBD57BA26676978008D451A /* NavigationView.swift */,
+				ECBD57AF26673FA7008D451A /* SearchHeaderReusableView.swift */,
+				ECBD57C32667A67A008D451A /* MovieDetailHeaderReusableView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -114,8 +135,25 @@
 				EC7F6C802666194100D396D7 /* HomeViewController.swift */,
 				EC30B6AA26661A8400610219 /* PopularViewController.swift */,
 				EC30B6AD26661AD700610219 /* FavoriteViewController.swift */,
+				ECBD57BD26676BFA008D451A /* DetailViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ECBD57A8266727E2008D451A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EC30B6B52666650200610219 /* BannerListViewCell.swift */,
+				EC30B6B92666665100610219 /* PopularMoviesListViewCell.swift */,
+				EC30B6BC266667CF00610219 /* ComingSoonListViewCell.swift */,
+				EC30B6C126666A3700610219 /* ImageViewCell.swift */,
+				ECBD57AC26673B65008D451A /* PopularMovieViewCell.swift */,
+				ECBD57B726675CD9008D451A /* FavoriteMovieViewCell.swift */,
+				ECBD57C026677354008D451A /* MovieOverviewViewCell.swift */,
+				ECBD57C72667BC41008D451A /* CastListViewCell.swift */,
+				ECBD57CA2667BDCD008D451A /* CastViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,15 +226,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC30B6B62666650200610219 /* BannerListViewCell.swift in Sources */,
+				ECBD57C42667A67A008D451A /* MovieDetailHeaderReusableView.swift in Sources */,
 				EC30B6C926666BD000610219 /* UIView+Extension.swift in Sources */,
 				EC30B6AB26661A8400610219 /* PopularViewController.swift in Sources */,
+				ECBD57AD26673B65008D451A /* PopularMovieViewCell.swift in Sources */,
 				EC7F6C812666194100D396D7 /* HomeViewController.swift in Sources */,
 				EC7F6C632666173000D396D7 /* AppDelegate.swift in Sources */,
+				ECBD57C82667BC41008D451A /* CastListViewCell.swift in Sources */,
+				ECBD57B826675CD9008D451A /* FavoriteMovieViewCell.swift in Sources */,
+				ECBD57B026673FA7008D451A /* SearchHeaderReusableView.swift in Sources */,
 				EC30B6C226666A3700610219 /* ImageViewCell.swift in Sources */,
 				EC30B6AE26661AD700610219 /* FavoriteViewController.swift in Sources */,
+				ECBD57BE26676BFA008D451A /* DetailViewController.swift in Sources */,
+				ECBD57BB26676978008D451A /* NavigationView.swift in Sources */,
+				ECBD57CB2667BDCD008D451A /* CastViewCell.swift in Sources */,
 				EC30B6BA2666665100610219 /* PopularMoviesListViewCell.swift in Sources */,
 				EC7F6C6D2666173000D396D7 /* MovieDB.xcdatamodeld in Sources */,
 				EC7F6C7D266617E400D396D7 /* MainTabController.swift in Sources */,
+				ECBD57AA26672810008D451A /* SearchView.swift in Sources */,
+				ECBD57C126677354008D451A /* MovieOverviewViewCell.swift in Sources */,
 				EC7F6C652666173000D396D7 /* SceneDelegate.swift in Sources */,
 				EC30B6B22666508A00610219 /* UIColor+Extension.swift in Sources */,
 				EC30B6BD266667CF00610219 /* ComingSoonListViewCell.swift in Sources */,

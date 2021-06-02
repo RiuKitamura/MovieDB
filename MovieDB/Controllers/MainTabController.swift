@@ -19,6 +19,8 @@ class MainTabController: UITabBarController {
     private func configureViewControllers() {
         
         self.tabBar.tintColor = .dbYellow
+        self.tabBar.isTranslucent = false
+        self.tabBar.barTintColor = .dbSecondaryBackground
         
         let homePage = HomeViewController(collectionViewLayout: UICollectionViewFlowLayout())
         let nav1 = templateNavigationController(image: UIImage(named: "Home"), rootViewController: homePage)

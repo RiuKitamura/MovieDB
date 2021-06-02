@@ -14,33 +14,55 @@ class HomeViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
+        configureView()
         configureCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     //MARK: - Helpers
     
-    private func configureNavigationBar() {
-        let logo = UIImage(named: "Logo")
-        let imageView = UIImageView(image: logo)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imageView)
+//    private func configureNavigationBar() {
+//        let logo = UIImage(named: "Logo")
+//        let imageView = UIImageView(image: logo)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imageView)
+//
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: nil, action: nil)
+//    }
+    
+    private func configureView() {
+        let navigationView = NavigationView()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: nil, action: nil)
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        
+        let statusBarView = UIView()
+        statusBarView.frame = CGRect(x:0, y:0, width:view.frame.size.width, height: statusBarHeight)
+        statusBarView.backgroundColor = .dbSecondaryBackground
+        view.addSubview(statusBarView)
+        
+        view.addSubview(navigationView)
+        navigationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, height: 56)
     }
     
     private func configureCollectionView() {
         
         self.collectionView.backgroundColor = .dbBackground
-        self.collectionView.contentInset = UIEdgeInsets(top: 11, left: 0, bottom: 11, right: 0)
+        self.collectionView.contentInset = UIEdgeInsets(top: 76, left: 0, bottom: 11, right: 0)
         self.collectionView.showsVerticalScrollIndicator = false
         // Register cell classes
         self.collectionView!.register(BannerListViewCell.self, forCellWithReuseIdentifier: BannerListViewCell.identifier)
         self.collectionView!.register(PopularMoviesListViewCell.self, forCellWithReuseIdentifier: PopularMoviesListViewCell.identifier)
         self.collectionView!.register(ComingSoonListViewCell.self, forCellWithReuseIdentifier: ComingSoonListViewCell.identifier)
     }
-
-
-    
 
 }
 
@@ -50,7 +72,6 @@ extension HomeViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
-
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -84,7 +105,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.section == 0 {
             return CGSize(width: width, height: height * 0.35)
         } else {
-            return CGSize(width: width, height: height * 0.25)
+            return CGSize(width: width, height: height * 0.27)
         }
     }
 }

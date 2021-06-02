@@ -15,8 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        UITabBar.appearance().barTintColor = .black
-        UINavigationBar.appearance().barTintColor = .black
+        UITabBar.appearance().barTintColor = .dbSecondaryBackground
+        UINavigationBar.appearance().barTintColor = .dbSecondaryBackground
+        UINavigationBar.appearance().prefersLargeTitles = true
+        UINavigationBar.appearance().backIndicatorImage = UIImage(systemName: "arrow.left")
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(systemName: "arrow.left")
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: -1000, vertical: 0), for:UIBarMetrics.default)
+        
         return true
     }
 
