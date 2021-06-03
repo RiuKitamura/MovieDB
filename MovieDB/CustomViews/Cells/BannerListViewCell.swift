@@ -7,6 +7,9 @@
 
 import UIKit
 
+protocol BannerListViewCellDelegate: class {
+    func didClickCell(_ movieViewModel: MovieViewModel)
+}
 class BannerListViewCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -20,6 +23,7 @@ class BannerListViewCell: UICollectionViewCell {
         }
     }
     
+    weak var delegate: BannerListViewCellDelegate?
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -79,6 +83,11 @@ extension BannerListViewCell: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: layer.frame.width, height: layer.frame.height - 0.1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vm = viewModels?[indexPath.row] else { return }
+        delegate?.didClickCell(vm)
     }
 
 }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ComingSoonListViewCellDelegate: class {
+    func didClickCell(_ movieViewModel: MovieViewModel)
+}
+
 class ComingSoonListViewCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -20,6 +24,8 @@ class ComingSoonListViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    weak var delegate: ComingSoonListViewCellDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -94,5 +100,9 @@ extension ComingSoonListViewCell: UICollectionViewDataSource, UICollectionViewDe
         return CGSize(width: layer.frame.width / 3.7, height: layer.frame.height - 63)
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModels?[indexPath.row] else { return }
+        delegate?.didClickCell(viewModel)
+    }
     
 }

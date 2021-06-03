@@ -89,14 +89,17 @@ extension HomeViewController {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerListViewCell.identifier, for: indexPath) as! BannerListViewCell
             cell.viewModels = homeViewModel.bannerViewModels
+            cell.delegate = self
             return cell
         } else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularMoviesListViewCell.identifier, for: indexPath) as! PopularMoviesListViewCell
             cell.viewModels = homeViewModel.popularMovieViewModels
+            cell.delegate = self
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComingSoonListViewCell.identifier, for: indexPath) as! ComingSoonListViewCell
             cell.viewModels = homeViewModel.comingSoonViewModels
+            cell.delegate = self
             return cell
         }
     }
@@ -116,5 +119,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         } else {
             return CGSize(width: width, height: height * 0.27)
         }
+    }
+}
+
+//MARK: - BannerListViewCellDelegate
+
+extension HomeViewController: BannerListViewCellDelegate, PopularMoviesListViewCellDelegate, ComingSoonListViewCellDelegate{
+    func didClickCell(_ movieViewModel: MovieViewModel) {
+        let controller = DetailViewController(movieId: movieViewModel.id)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

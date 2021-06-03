@@ -13,6 +13,17 @@ class CastListViewCell: UICollectionViewCell {
     
     static let identifier = "CastListViewCell"
     
+    var viewModel: [CastDetailViewModel]? {
+        didSet {
+            if let vm = viewModel {
+                castDetailViewModels = vm
+                self.collectionView.reloadData()
+            }
+            
+        }
+    }
+    private var castDetailViewModels = [CastDetailViewModel]()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Cast"
@@ -68,13 +79,16 @@ class CastListViewCell: UICollectionViewCell {
 
 extension CastListViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if castDetailViewModels.count > 10 {
+            return 10
+        }
         
-        return 10
+        return castDetailViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastViewCell.identifier, for: indexPath) as! CastViewCell
-   
+        cell.castDetailViewModel = castDetailViewModels[indexPath.row]
         return cell
     }
     

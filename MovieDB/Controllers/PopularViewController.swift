@@ -130,7 +130,8 @@ extension PopularViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = DetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let movieId = popularViewModel.movieViewModels[indexPath.row].id
+        let controller = DetailViewController(movieId: movieId)
         navigationController?.pushViewController(controller, animated: true)
     }
     

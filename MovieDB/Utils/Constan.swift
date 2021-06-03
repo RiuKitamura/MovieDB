@@ -24,6 +24,14 @@ struct Constan {
             return URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(Constan.apiKey)&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&year=\(year)")
         }
         
+        static func urlForMovieDetail(movieId: Int) -> URL? {
+            return URL(string: "https://api.themoviedb.org/3/movie/\(movieId)?api_key=\(Constan.apiKey)&language=en-US&append_to_response=casts%2Cvideos")
+        }
+        
+        static func urlForTrailer(key: String) -> URL? {
+            return URL(string: "https://www.youtube.com/embed/\(key)")
+        }
+        
         static let fosterBaseUrlw154 = "https://image.tmdb.org/t/p/w154"
         static let fosterBaseUrlw780 = "https://image.tmdb.org/t/p/w780"
         static let castImageBaseUrlw92 = "https://image.tmdb.org/t/p/w92"

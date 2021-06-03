@@ -7,23 +7,32 @@
 
 import UIKit
 
+protocol MovieDetailHeaderReusableViewDelegate: class {
+    func didClickTriler(_ url: URL)
+}
 class MovieDetailHeaderReusableView: UICollectionReusableView {
     
     //MARK: - Properties
     
     static let identifier = "MoveDetailHeaderReusableView"
     
+    var movieDetailViewModel: MovieDetailViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
+    weak var delegate: MovieDetailHeaderReusableViewDelegate?
     private var imageViewHeight = NSLayoutConstraint()
     private var imageViewBottom = NSLayoutConstraint()
     private var containerView = UIView()
     private var containerViewHeight = NSLayoutConstraint()
     private var infoContainerView = UIView()
     
-    private let coverImageView: UIImageView = {
-        let iv = UIImageView()
+    private let coverImageView: CacheImageView = {
+        let iv = CacheImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "Me")
         return iv
     }()
     
@@ -35,6 +44,7 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         button.setImage(UIImage(systemName: "play"), for: .normal)
         button.layer.cornerRadius = 4
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 13)
+        button.addTarget(self, action: #selector(didClickWatchTrailer), for: .touchUpInside)
         return button
     }()
     
@@ -49,19 +59,20 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         button.layer.borderWidth = 0.3
         button.layer.borderColor = UIColor.secondaryLabel.cgColor
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 13)
+        button.addTarget(self, action: #selector(didClickAddFavorite), for: .touchUpInside)
         return button
     }()
     
     private let genreLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
         label.numberOfLines = 2
-        label.text = "AKFJKAF - FJAFH - FAHFJAH"
         return label
     }()
     
-    private let durationLabel: UILabel = {
+    private let releaseDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "1h 29m"
+        label.font = .systemFont(ofSize: 12)
         return label
     }()
     
@@ -70,7 +81,6 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         label.font = .boldSystemFont(ofSize: 28)
         label.numberOfLines = 0
         label.textColor = .white
-        label.text = "dhfja fahhfjahf  fjahfj fhfjdhf afhjafh"
         return label
     }()
 
@@ -89,6 +99,16 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         infoContainerView.addGradient(startColor: .clear, endColor: .dbBackground)
+    }
+    
+    //MARK: - Selectors
+    @objc private func didClickWatchTrailer() {
+        guard let url = movieDetailViewModel?.trailerUrl() else { return }
+        delegate?.didClickTriler(url)
+    }
+    
+    @objc private func didClickAddFavorite() {
+        print("fav")
     }
     
     //MARK: - Helpers
@@ -110,11 +130,11 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         infoContainerView.addSubview(genreLabel)
         genreLabel.anchor(leading: buttonStack.leadingAnchor, bottom: buttonStack.topAnchor, trailing: buttonStack.trailingAnchor, paddingBottom: 24)
         
-        infoContainerView.addSubview(durationLabel)
-        durationLabel.anchor(leading: buttonStack.leadingAnchor, bottom: genreLabel.topAnchor, trailing: buttonStack.trailingAnchor, paddingBottom: 14)
+        infoContainerView.addSubview(releaseDateLabel)
+        releaseDateLabel.anchor(leading: buttonStack.leadingAnchor, bottom: genreLabel.topAnchor, trailing: buttonStack.trailingAnchor, paddingBottom: 14)
         
         infoContainerView.addSubview(titleLabel)
-        titleLabel.anchor(top: infoContainerView.topAnchor, leading: buttonStack.leadingAnchor, bottom: durationLabel.topAnchor, trailing: buttonStack.trailingAnchor, paddingTop: 175, paddingBottom: 9)
+        titleLabel.anchor(top: infoContainerView.topAnchor, leading: buttonStack.leadingAnchor, bottom: releaseDateLabel.topAnchor, trailing: buttonStack.trailingAnchor, paddingTop: 175, paddingBottom: 9)
     }
     
     private func configureImageView() {
@@ -146,5 +166,13 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         containerView.clipsToBounds = offsetY <= 0
         imageViewBottom.constant = offsetY >= 0 ? 0 : -offsetY / 2
         imageViewHeight.constant = max(offsetY + scrollView.contentInset.top, scrollView.contentInset.top)
+    }
+    
+    private func configure() {
+        guard let vm = movieDetailViewModel else { return }
+        titleLabel.text = vm.movieTitle
+        genreLabel.attributedText = vm.genres
+        coverImageView.downloadImage(from: vm.posterLink)
+        releaseDateLabel.text = vm.releaseDate
     }
 }

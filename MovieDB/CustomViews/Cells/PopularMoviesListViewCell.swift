@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol PopularMoviesListViewCellDelegate: class {
+    func didClickCell(_ movieViewModel: MovieViewModel)
+}
+
 class PopularMoviesListViewCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -20,6 +24,8 @@ class PopularMoviesListViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    weak var delegate: PopularMoviesListViewCellDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -94,5 +100,8 @@ extension PopularMoviesListViewCell: UICollectionViewDataSource, UICollectionVie
         return CGSize(width: layer.frame.width / 3.7, height: layer.frame.height - 63)
     }
 
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModels?[indexPath.row] else { return }
+        delegate?.didClickCell(viewModel)
+    }
 }

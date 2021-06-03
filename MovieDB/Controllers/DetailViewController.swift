@@ -6,14 +6,30 @@
 //
 
 import UIKit
+import SafariServices
 
 class DetailViewController: UICollectionViewController {
-
+    
+    //MARK: - Properties
+    
+    private let detailListViewModel: DetailListViewModel
+    
+    //MARK: - Init
+    init(movieId: Int) {
+        self.detailListViewModel = DetailListViewModel(movieId: movieId)
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureCollectionView()
-
+        fetchMovieDetail()
     }
     
     //MARK: - Helpers
@@ -29,6 +45,16 @@ class DetailViewController: UICollectionViewController {
         self.collectionView!.register(CastListViewCell.self, forCellWithReuseIdentifier: CastListViewCell.identifier)
 
     }
+    
+    private func fetchMovieDetail() {
+        detailListViewModel.fetchMovieDetail { (isSuccess) in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
 
 }
 
@@ -42,19 +68,33 @@ extension DetailViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        
+        if section == 0 {
+            return detailListViewModel.numberOfOverviewItemsInSection
+        } else {
+            return detailListViewModel.numberOfCastItemsInSection
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieOverviewViewCell.identifier, for: indexPath) as! MovieOverviewViewCell
+            cell.movieDetailViewModel = detailListViewModel.movieDetailViewModel
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastListViewCell.identifier, for: indexPath) as! CastListViewCell
+            cell.viewModel = detailListViewModel.movieDetailViewModel?.getAllCastViewModel()
             return cell
         }
         
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MovieDetailHeaderReusableView.identifier, for: indexPath) as! MovieDetailHeaderReusableView
+        header.movieDetailViewModel = detailListViewModel.movieDetailViewModel
+        header.delegate = self
+        return header
     }
     
 }
@@ -62,10 +102,6 @@ extension DetailViewController {
 //MARK: - UICollectionViewDelegate
 
 extension DetailViewController {
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MovieDetailHeaderReusableView.identifier, for: indexPath) as! MovieDetailHeaderReusableView
-        return header
-    }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let header = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: 0)) as? MovieDetailHeaderReusableView else { return }
@@ -84,7 +120,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
             let size = CGSize(width: approximateWidth, height: 1000)
             let atribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]
             
-            let estimateFrame = NSString(string: "Add constraints in that .xib that allow for the cell to be calculated from top to bottom. The re-sizing won't work if you haven't accounted for all of the height. Say you have a view on top, then a label underneath it, and another label underneath that. You would need to connect constraints to the top of the cell to the top of that view, then the bottom of the view to the top of the first label, bottom of first label to the top of the second label, and bottom of second label to bottom of cell. Add constraints in that .xib that allow for the cell to be calculated from top to bottom. The re-sizing won't work if you haven't accounted for all of the height. Say you have a view on top, then a label underneath it, and another label underneath that. You would need to connect constraints to the top of the cell to the top of that view, then the bottom of the view to the top of the first label, bottom of first label to the top of the second label, and bottom of second label to bottom of cell.").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: atribute, context: nil)
+            guard let overviewStrig = detailListViewModel.movieDetailViewModel?.overview else {
+                return .zero
+            }
+            let estimateFrame = NSString(string: overviewStrig).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: atribute, context: nil)
             return CGSize(width: view.frame.width, height: estimateFrame.height + 10 + 56)
         }
         
@@ -92,10 +131,23 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
+        if section == 0 && !detailListViewModel.shuldHideHeader(){
             return CGSize(width: view.frame.width, height: view.frame.height * 0.7)
         }
         
         return .zero
     }
+}
+
+//MARK: - MovieDetailHeaderReusableViewDelegate
+
+extension DetailViewController: MovieDetailHeaderReusableViewDelegate {
+    func didClickTriler(_ url: URL) {
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = true
+        
+        let vc = SFSafariViewController(url: url, configuration: config)
+        present(vc, animated: true)
+    }
+    
 }

@@ -25,8 +25,8 @@ class CacheImageView: UIImageView {
         
         self.image = UIImage(named: "placeholder_image")
         
-        WebService().downloadImage(with: link) { (result) in
-            
+        WebService().downloadImage(with: link) {[weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let image):
                 imageChace.setObject(image, forKey: link as NSString)

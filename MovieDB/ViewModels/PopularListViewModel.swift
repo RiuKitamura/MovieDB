@@ -31,7 +31,9 @@ class PopularListViewModel {
             return movie
         }
         
-        WebService().loadMovie(resource: movieResouce) { (result) in
+        WebService().loadMovie(resource: movieResouce) {[weak self] (result) in
+            guard let self = self else { return }
+
             self.updateLoadingStatus()
 
             switch result {

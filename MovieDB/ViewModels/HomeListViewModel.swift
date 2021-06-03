@@ -24,7 +24,8 @@ class HomeListViewModel {
             return movie
         }
         
-        WebService().loadMovie(resource: movieResouce) { (result) in
+        WebService().loadMovie(resource: movieResouce) {[weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let movie):
                 guard let movie = movie else {
@@ -64,7 +65,8 @@ class HomeListViewModel {
             return movie
         }
         
-        WebService().loadMovie(resource: comingMovieResouce) { (result) in
+        WebService().loadMovie(resource: comingMovieResouce) {[weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let movie):
                 guard let movie = movie else {

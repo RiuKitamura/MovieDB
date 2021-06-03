@@ -13,8 +13,14 @@ class CastViewCell: UICollectionViewCell {
     
     static let identifier = "CastViewCell"
     
-    private let castImageView: UIImageView = {
-        let imageView = UIImageView()
+    var castDetailViewModel: CastDetailViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
+    private let castImageView: CacheImageView = {
+        let imageView = CacheImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .gray
@@ -27,7 +33,6 @@ class CastViewCell: UICollectionViewCell {
         label.textColor = .systemBackground
         label.font = UIFont.boldSystemFont(ofSize: 70)
         label.isHidden = true
-        label.text = "A"
         return label
     }()
     
@@ -36,7 +41,6 @@ class CastViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 4
         label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "kfkd fakfj fkajfkajfka jfkaj fkaj fkaj fkaj fkaj fkaf kafj kaj fka dfdfdffd"
         return label
     }()
     
@@ -67,5 +71,15 @@ class CastViewCell: UICollectionViewCell {
         
         castInitialName.addConstraintsToFillView(castImageView)
         
+    }
+    
+    private func configure() {
+        guard let vm = castDetailViewModel else { return }
+        
+        castImageView.image = nil
+        castImageView.downloadImage(from: vm.imageUrlString)
+        castInitialName.isHidden = !vm.isProfilePathEmpty
+        castInitialName.text = vm.initialName
+        castNameLabel.text = vm.castName        
     }
 }
