@@ -124,7 +124,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.section == 0 {
             return CGSize(width: width, height: height * 0.35)
         } else {
-            return CGSize(width: width, height: height * 0.27)
+            return CGSize(width: width, height: 225)
         }
     }
 }
