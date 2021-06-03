@@ -22,7 +22,6 @@ class SearchHeaderReusableView: UICollectionReusableView {
     
     private let labelSearch: UILabel = {
         let label = UILabel()
-        label.text = "'Test'"
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 16)
         return label
@@ -47,5 +46,10 @@ class SearchHeaderReusableView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(message: String, query: String) {
+        label.text = message
+        labelSearch.text = "'\(query)'"
     }
 }

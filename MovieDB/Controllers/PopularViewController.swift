@@ -70,6 +70,7 @@ class PopularViewController: UICollectionViewController {
     private func configureCollectionView() {
         self.collectionView.backgroundColor = .dbBackground
         self.collectionView.contentInset = UIEdgeInsets(top: 76, left: 20, bottom: 20, right: 20)
+        self.collectionView.showsVerticalScrollIndicator = false
         
         self.collectionView!.register(SearchHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchHeaderReusableView.identifier)
         self.collectionView!.register(PopularMovieViewCell.self, forCellWithReuseIdentifier: PopularMovieViewCell.identifier)
@@ -117,6 +118,7 @@ extension PopularViewController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchHeaderReusableView.identifier, for: indexPath) as! SearchHeaderReusableView
+            header.configure(message: popularViewModel.searchResultMessage, query: popularViewModel.query)
             return header
         } else {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: FooterLoadingReusableView.identifier, for: indexPath) as! FooterLoadingReusableView
@@ -157,9 +159,13 @@ extension PopularViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: (view.frame.width / 2) - 28, height: 264)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: view.frame.width, height: 30)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if popularViewModel.isSearchMode {
+            return CGSize(width: view.frame.width, height: 30)
+        } else {
+            return .zero
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 26)

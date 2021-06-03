@@ -14,7 +14,8 @@ class PopularListViewModel {
     private var nextPage = 1
     private var totalPages = 0
     private var isLoading = false
-    private var isSearchMode = false
+    private(set) var isSearchMode = false
+    private(set) var query = ""
     
     func fetchMovie(completion: @escaping(Bool) -> Void) {
         
@@ -55,6 +56,7 @@ class PopularListViewModel {
     
     func searchMovie(query: String) {
         isSearchMode = true
+        self.query = query
         movieViewModels = copyViewModels
         movieViewModels = movieViewModels.filter{ $0.title.lowercased().contains(query.lowercased())}
     }
@@ -81,6 +83,14 @@ class PopularListViewModel {
             return true
         }
         return false
+    }
+    
+    var searchResultMessage: String {
+        if movieViewModels.count > 0 {
+            return "Showing result of "
+        } else {
+            return "No result of "
+        }
     }
         
     //MARK: - Private
