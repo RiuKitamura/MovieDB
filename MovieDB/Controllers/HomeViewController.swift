@@ -12,7 +12,8 @@ class HomeViewController: UICollectionViewController {
     
     //MARK: - Properties
     private var homeViewModel = HomeListViewModel()
-    
+    private let loadSpinner = UIActivityIndicatorView()
+
     //MARK: - Lifeycle
 
     override func viewDidLoad() {
@@ -47,6 +48,9 @@ class HomeViewController: UICollectionViewController {
         
         view.addSubview(navigationView)
         navigationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, height: 56)
+        
+        self.view.addSubview(loadSpinner)
+        loadSpinner.center(inView: self.view)
     }
     
     private func configureCollectionView() {
@@ -61,9 +65,12 @@ class HomeViewController: UICollectionViewController {
     }
     
     private func fetchData() {
-        homeViewModel.fetchMovie { (isSucces) in
-            if isSucces {
-                DispatchQueue.main.async {
+        loadSpinner.startAnimating()
+        homeViewModel.fetchMovie {[weak self] (isSucces) in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.loadSpinner.stopAnimating()
+                if isSucces {
                     self.collectionView.reloadData()
                 }
             }
@@ -127,6 +134,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: BannerListViewCellDelegate, PopularMoviesListViewCellDelegate, ComingSoonListViewCellDelegate{
     func didClickCell(_ movieViewModel: MovieViewModel) {
         let controller = DetailViewController(movieId: movieViewModel.id)
+        controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC191C442668B6E500FC10FE /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC191C432668B6E500FC10FE /* CoreDataManager.swift */; };
+		EC191C4B2668B8A100FC10FE /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC191C4A2668B8A100FC10FE /* FavoriteListViewModel.swift */; };
 		EC30B6AB26661A8400610219 /* PopularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6AA26661A8400610219 /* PopularViewController.swift */; };
 		EC30B6AE26661AD700610219 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6AD26661AD700610219 /* FavoriteViewController.swift */; };
 		EC30B6B22666508A00610219 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC30B6B12666508A00610219 /* UIColor+Extension.swift */; };
@@ -43,6 +45,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EC191C432668B6E500FC10FE /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		EC191C4A2668B8A100FC10FE /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
 		EC30B6AA26661A8400610219 /* PopularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularViewController.swift; sourceTree = "<group>"; };
 		EC30B6AD26661AD700610219 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		EC30B6B12666508A00610219 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -91,6 +95,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC191C422668B6C800FC10FE /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				EC191C432668B6E500FC10FE /* CoreDataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		EC30B6B02666506A00610219 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +130,7 @@
 				EC4D47022667D54400B0B9FA /* HomeListViewModel.swift */,
 				ECF3CAED2667F13F00EDBD6F /* PopularListViewModel.swift */,
 				ECF258F726686D2000BEDA38 /* DetailListViewModel.swift */,
+				EC191C4A2668B8A100FC10FE /* FavoriteListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -146,6 +159,7 @@
 				ECBD57D52667CB69008D451A /* Models */,
 				EC30B6B4266664CF00610219 /* CustomViews */,
 				ECBD57DA2667CC38008D451A /* Services */,
+				EC191C422668B6C800FC10FE /* Managers */,
 				EC30B6B02666506A00610219 /* Extensions */,
 				ECBD57CD2667C625008D451A /* Utils */,
 				EC7F6C622666173000D396D7 /* AppDelegate.swift */,
@@ -293,6 +307,7 @@
 				ECF258F826686D2000BEDA38 /* DetailListViewModel.swift in Sources */,
 				EC30B6B62666650200610219 /* BannerListViewCell.swift in Sources */,
 				ECBD57C42667A67A008D451A /* MovieDetailHeaderReusableView.swift in Sources */,
+				EC191C4B2668B8A100FC10FE /* FavoriteListViewModel.swift in Sources */,
 				EC30B6C926666BD000610219 /* UIView+Extension.swift in Sources */,
 				EC30B6AB26661A8400610219 /* PopularViewController.swift in Sources */,
 				ECBD57D72667CB93008D451A /* Movie.swift in Sources */,
@@ -303,6 +318,7 @@
 				ECBD57B826675CD9008D451A /* FavoriteMovieViewCell.swift in Sources */,
 				ECBD57B026673FA7008D451A /* SearchHeaderReusableView.swift in Sources */,
 				EC30B6C226666A3700610219 /* ImageViewCell.swift in Sources */,
+				EC191C442668B6E500FC10FE /* CoreDataManager.swift in Sources */,
 				ECF3CAEE2667F13F00EDBD6F /* PopularListViewModel.swift in Sources */,
 				EC30B6AE26661AD700610219 /* FavoriteViewController.swift in Sources */,
 				ECBD57BE26676BFA008D451A /* DetailViewController.swift in Sources */,

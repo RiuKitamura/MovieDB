@@ -10,7 +10,8 @@ import UIKit
 class DetailListViewModel {
     private let movieId: Int
     private(set) var movieDetailViewModel: MovieDetailViewModel?
-    
+    private let db = CoreDataManager()
+
     init(movieId: Int) {
         self.movieId = movieId
     }
@@ -22,6 +23,7 @@ class DetailListViewModel {
             return
         }
         
+        print(movieDetailUrl)
         let movieDetailResource = Resource<MovieDetail>(url: movieDetailUrl) { (data) -> MovieDetail? in
             let movieDetail = try? JSONDecoder().decode(MovieDetail.self, from: data)
             return movieDetail
@@ -37,11 +39,49 @@ class DetailListViewModel {
                     return
                 }
                 self.movieDetailViewModel = MovieDetailViewModel(movie)
+                self.cekBookmark()
                 completion(true)
             case .failure(let error):
                 print(error)
                 completion(false)
             }
+        }
+    }
+    
+    func addToFavorite(_ movie: MovieDetail, competion: @escaping(Bool) -> Void) {
+        db.addFavorite(movie: movie) { (isSuccess) in
+            if isSuccess {
+                self.cekBookmark()
+                competion(true)
+            } else {
+                competion(false)
+            }
+        }
+    }
+    
+    func deleteFavorite(_ movie: MovieDetail, competion: @escaping(Bool) -> Void) {
+        
+        let pred = NSPredicate(format: "movieId == %@", String(movie.id))
+        
+        db.deleteSpecificData(ofType: Favorite.self, with: pred) { (isSuccess) in
+            if isSuccess {
+                self.movieDetailViewModel?.updateFavoriteStatus(status: false)
+                competion(true)
+            } else {
+                self.movieDetailViewModel?.updateFavoriteStatus(status: true)
+                competion(false)
+            }
+        }
+                
+    }
+    
+    private func cekBookmark() {
+        let pred = NSPredicate(format: "movieId == %@", String(movieId))
+        let data = db.fetchData(ofType: Favorite.self, with: pred)
+        if data != nil {
+            self.movieDetailViewModel?.updateFavoriteStatus(status: true)
+        } else {
+            self.movieDetailViewModel?.updateFavoriteStatus(status: false)
         }
     }
     
@@ -61,8 +101,9 @@ class DetailListViewModel {
 //MARK: - MovieDetailViewModel
 
 struct MovieDetailViewModel {
-    private let movieDetail: MovieDetail
-    private let castDetailViewModels: [CastDetailViewModel]
+    private var movieDetail: MovieDetail
+    private let castDetailViewModels: [CastDetailViewModel]?
+    private(set) var didFavorite = false
     
     init(_ movieDetail: MovieDetail) {
         self.movieDetail = movieDetail
@@ -71,7 +112,7 @@ struct MovieDetailViewModel {
     }
     
     var numberOfCastItemsInSection: Int {
-        if castDetailViewModels.count > 0 {
+        if castDetailViewModels?.count ?? 0 > 0 {
             return 1
         }
         return 0
@@ -111,7 +152,7 @@ struct MovieDetailViewModel {
         movieDetail.overview ?? ""
     }
     
-    func getAllCastViewModel() -> [CastDetailViewModel] {
+    func getAllCastViewModel() -> [CastDetailViewModel]? {
         castDetailViewModels
     }
     
@@ -121,6 +162,30 @@ struct MovieDetailViewModel {
             return nil
         }
         return Constan.Url.urlForTrailer(key: movieDetail.videos.results[0].key)
+    }
+    
+    var movieDetailData: MovieDetail {
+        movieDetail
+    }
+    
+    var favoriteButtonTitle: String {
+        if didFavorite {
+            return "Remove from Favorite"
+        } else {
+            return "Add to Favorite"
+        }
+    }
+    
+    var favoriteButtonTitleImageName: String {
+        if didFavorite {
+            return "fdf"
+        } else {
+            return "plus"
+        }
+    }
+    
+    mutating func updateFavoriteStatus(status: Bool) {
+        self.didFavorite = status
     }
 }
 

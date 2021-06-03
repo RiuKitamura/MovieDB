@@ -13,6 +13,8 @@ class PopularViewController: UICollectionViewController {
     
     private var popularViewModel = PopularListViewModel()
     
+    private let loadSpinner = UIActivityIndicatorView()
+    
     private lazy var searchView: SearchView = {
         let sv = SearchView()
         sv.textField.placeholder = "Search"
@@ -26,7 +28,7 @@ class PopularViewController: UICollectionViewController {
         super.viewDidLoad()
         configureView()
         configureCollectionView()
-        fetchData()
+        fetchData(refresh: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +67,9 @@ class PopularViewController: UICollectionViewController {
         
         view.addSubview(searchView)
         searchView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, height: 56)
+        
+        self.view.addSubview(loadSpinner)
+        loadSpinner.center(inView: self.view)
     }
     
     private func configureCollectionView() {
@@ -79,10 +84,17 @@ class PopularViewController: UICollectionViewController {
 
     }
     
-    private func fetchData() {
-        popularViewModel.fetchMovie { (isSucces) in
+    private func fetchData(refresh: Bool = false) {
+        if refresh {
+            loadSpinner.startAnimating()
+        }
+        popularViewModel.fetchMovie {[weak self] (isSucces) in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.loadSpinner.stopAnimating()
+                if isSucces {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -132,6 +144,7 @@ extension PopularViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieId = popularViewModel.movieViewModels[indexPath.row].id
         let controller = DetailViewController(movieId: movieId)
+        controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
     

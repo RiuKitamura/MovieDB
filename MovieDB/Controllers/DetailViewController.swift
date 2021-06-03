@@ -14,6 +14,9 @@ class DetailViewController: UICollectionViewController {
     
     private let detailListViewModel: DetailListViewModel
     
+    private let loadSpinner = UIActivityIndicatorView()
+
+    
     //MARK: - Init
     init(movieId: Int) {
         self.detailListViewModel = DetailListViewModel(movieId: movieId)
@@ -35,6 +38,9 @@ class DetailViewController: UICollectionViewController {
     //MARK: - Helpers
     
     private func configureCollectionView() {
+        self.view.addSubview(loadSpinner)
+        loadSpinner.center(inView: self.view)
+        
         self.collectionView.backgroundColor = .dbBackground
         self.collectionView.contentInsetAdjustmentBehavior = .never
         self.collectionView.showsVerticalScrollIndicator = false
@@ -47,7 +53,11 @@ class DetailViewController: UICollectionViewController {
     }
     
     private func fetchMovieDetail() {
-        detailListViewModel.fetchMovieDetail { (isSuccess) in
+        loadSpinner.startAnimating()
+        detailListViewModel.fetchMovieDetail {[weak self] (isSuccess) in
+            guard let self = self else { return }
+            self.loadSpinner.stopAnimating()
+
             if isSuccess {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -142,6 +152,25 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 //MARK: - MovieDetailHeaderReusableViewDelegate
 
 extension DetailViewController: MovieDetailHeaderReusableViewDelegate {
+    func didClickAddFavorite(_ movie: MovieDetailViewModel) {
+        
+        if movie.didFavorite {
+            detailListViewModel.deleteFavorite(movie.movieDetailData) { (isSuccess) in
+                if isSuccess {
+                    self.collectionView.reloadData()
+                }
+            }
+            
+        } else {
+            detailListViewModel.addToFavorite(movie.movieDetailData) { (isSuccess) in
+                if isSuccess {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+        
+    }
+    
     func didClickTriler(_ url: URL) {
         let config = SFSafariViewController.Configuration()
         config.entersReaderIfAvailable = true

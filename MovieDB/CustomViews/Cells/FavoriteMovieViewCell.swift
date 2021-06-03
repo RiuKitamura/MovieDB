@@ -7,14 +7,26 @@
 
 import UIKit
 
+protocol FavoriteMovieViewCellDelegate: class {
+    func didClickHeartButton(_ cell: FavoriteMovieViewCell)
+}
+
 class FavoriteMovieViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
     static let identifier = "FavoriteMovieViewCell"
     
-    private let imageView: UIImageView = {
-        let iv = UIImageView()
+    var viewModel: FavoriteViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
+    weak var delegate: FavoriteMovieViewCellDelegate?
+    
+    private let imageView: CacheImageView = {
+        let iv = CacheImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .gray
@@ -25,7 +37,6 @@ class FavoriteMovieViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
-        label.text = "tesjd a "
         return label
     }()
     
@@ -33,7 +44,6 @@ class FavoriteMovieViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .secondaryLabel
-        label.text = "2020"
         return label
     }()
     
@@ -41,12 +51,11 @@ class FavoriteMovieViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .tertiaryLabel
-        label.text = "fjdfja "
         label.numberOfLines = 2
         return label
     }()
     
-    private let buttonHeart: UIButton = {
+    private lazy var buttonHeart: UIButton = {
         let button = UIButton(type: .system)
         button.setDimensions(width: 24, height: 24)
         button.layer.cornerRadius = 12
@@ -54,6 +63,7 @@ class FavoriteMovieViewCell: UICollectionViewCell {
         button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 6, left: 4, bottom: 6, right: 5)
         button.tintColor = .dbYellow
+        button.addTarget(self, action: #selector(didClickHeartButton), for: .touchUpInside)
         return button
     }()
     
@@ -81,5 +91,20 @@ class FavoriteMovieViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Selectors
+    @objc private func didClickHeartButton() {
+        delegate?.didClickHeartButton(self)
+    }
+    
+    //MARK: - Helpers
+    
+    private func configure() {
+        guard let vm = viewModel else { return }
+        imageView.downloadImage(from: vm.posterLink)
+        titleLabel.text = vm.movieTitle
+        yearLabel.text = vm.releaseYear
+        genreLabel.text = vm.genre
     }
 }

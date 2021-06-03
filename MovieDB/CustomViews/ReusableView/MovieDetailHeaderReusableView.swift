@@ -9,6 +9,7 @@ import UIKit
 
 protocol MovieDetailHeaderReusableViewDelegate: class {
     func didClickTriler(_ url: URL)
+    func didClickAddFavorite(_ movie: MovieDetailViewModel)
 }
 class MovieDetailHeaderReusableView: UICollectionReusableView {
     
@@ -108,7 +109,8 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
     }
     
     @objc private func didClickAddFavorite() {
-        print("fav")
+        guard let movie = movieDetailViewModel else { return }
+        delegate?.didClickAddFavorite(movie)
     }
     
     //MARK: - Helpers
@@ -174,5 +176,7 @@ class MovieDetailHeaderReusableView: UICollectionReusableView {
         genreLabel.attributedText = vm.genres
         coverImageView.downloadImage(from: vm.posterLink)
         releaseDateLabel.text = vm.releaseDate
+        addFavoriteButton.setTitle(vm.favoriteButtonTitle, for: .normal)
+        addFavoriteButton.setImage(UIImage(systemName: vm.favoriteButtonTitleImageName), for: .normal)
     }
 }
