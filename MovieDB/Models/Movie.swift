@@ -9,6 +9,7 @@ import Foundation
 
 struct Movie: Decodable {
     let results: [MovieResult]
+    let total_pages: Int
 }
 
 struct MovieResult: Decodable {
@@ -16,4 +17,7 @@ struct MovieResult: Decodable {
     let backdrop_path: String?
     let poster_path: String?
     let title: String
+    let release_date: String?
+    let vote_average: Double?
+    
 }

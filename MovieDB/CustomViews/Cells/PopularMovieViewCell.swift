@@ -11,10 +11,16 @@ class PopularMovieViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
+    var viewModels: MovieViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
     static let identifier = "PopularMovieViewCell"
     
-    private let imageView: UIImageView = {
-        let iv = UIImageView()
+    private let imageView: CacheImageView = {
+        let iv = CacheImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .gray
@@ -26,15 +32,13 @@ class PopularMovieViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .white
-        label.text = "tesjd afjajfkajf kjafkjfk saj fjahfjahfjhajfhajhfjahf sahfj ajfhjhfjahf jhfjsha jfahjfsaj "
         return label
     }()
     
-    private let castLabel: UILabel = {
+    private let releaseDateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 10)
         label.textColor = .secondaryLabel
-        label.text = "tesjd afjajfkajf kjafkjfk saj fhsjfhajf jahfjahfj ajf ajfhjafhja fhjsa f "
         label.numberOfLines = 2
         return label
     }()
@@ -51,12 +55,22 @@ class PopularMovieViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         titleLabel.anchor(top: imageView.bottomAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, paddingTop: 8)
         
-        contentView.addSubview(castLabel)
-        castLabel.anchor(top: titleLabel.bottomAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, paddingTop: 4)
+        contentView.addSubview(releaseDateLabel)
+        releaseDateLabel.anchor(top: titleLabel.bottomAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, paddingTop: 4)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helpers
+    
+    private func configure() {
+        guard let vm = viewModels else { return }
+        
+        imageView.downloadImage(from: vm.posterLink)
+        titleLabel.text = vm.title
+        releaseDateLabel.text = vm.releaseDate
     }
     
 }

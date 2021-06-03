@@ -63,7 +63,9 @@ class HomeViewController: UICollectionViewController {
     private func fetchData() {
         homeViewModel.fetchMovie { (isSucces) in
             if isSucces {
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }

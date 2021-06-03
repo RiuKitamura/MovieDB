@@ -13,6 +13,7 @@ class SearchView: UIView {
         let tf = UITextField()
         tf.borderStyle = .none
         tf.returnKeyType = .done
+        tf.autocorrectionType = .no
         return tf
     }()
     
@@ -20,6 +21,7 @@ class SearchView: UIView {
         let button = UIButton()
         button.tintColor = .dbYellow
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.isEnabled = false
         return button
     }()
 

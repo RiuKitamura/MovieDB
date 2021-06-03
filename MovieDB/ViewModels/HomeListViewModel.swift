@@ -14,7 +14,7 @@ class HomeListViewModel {
     
     func fetchMovie(completion: @escaping(Bool) -> Void) {
         
-        guard let movieUrl = Constan.Url.urlForMovie else {
+        guard let movieUrl = Constan.Url.urlForMovie(page: 1) else {
             completion(false)
             return
         }
@@ -27,9 +27,13 @@ class HomeListViewModel {
         WebService().loadMovie(resource: movieResouce) { (result) in
             switch result {
             case .success(let movie):
-                let bennerVM = movie!.results.map{MovieViewModel($0, isBaner: true)}
+                guard let movie = movie else {
+                    completion(false)
+                    return
+                }
+                let bennerVM = movie.results.map{MovieViewModel($0, isBaner: true)}
                 self.bannerViewModels = bennerVM
-                let popularVM = movie!.results.map{MovieViewModel($0, isBaner: false)}
+                let popularVM = movie.results.map{MovieViewModel($0, isBaner: false)}
                 self.popularMovieViewModels = popularVM
                 
                 // fetch coming soon movie
@@ -63,7 +67,11 @@ class HomeListViewModel {
         WebService().loadMovie(resource: comingMovieResouce) { (result) in
             switch result {
             case .success(let movie):
-                let vm = movie!.results.map{MovieViewModel($0, isBaner: false)}
+                guard let movie = movie else {
+                    completion(false)
+                    return
+                }
+                let vm = movie.results.map{MovieViewModel($0, isBaner: false)}
                 self.comingSoonViewModels = vm
                 completion(true)
             case .failure(let error):
@@ -110,7 +118,11 @@ struct MovieViewModel {
         return movie.title
     }
     
-    func suldHideTitle() -> Bool {
-        movie.poster_path == nil ? false : true
+    var releaseDate: String {
+        return movie.release_date ?? "-"
     }
+    
+//    func suldHideTitle() -> Bool {
+//        movie.poster_path == nil ? false : true
+//    }
 }
