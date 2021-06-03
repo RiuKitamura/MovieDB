@@ -34,24 +34,7 @@ struct MovieDetail: Decodable {
     let casts: Casts
     let poster_path: String?
     let videos: Video
-//    var didFavorite: Bool = false
-    
-//    private enum CodingKeys: String, CodingKey { case id, backdrop_path, genres, title, overview, release_date, vote_average, vote_count, casts, poster_path, videos}
-//    
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        id = try container.decode(Int.self, forKey: .id)
-//        backdrop_path = try container.decode(String.self, forKey: .backdrop_path)
-//        genres = try container.decode([GenreDetail].self, forKey: .genres)
-//        title = try container.decode(String.self, forKey: .title)
-//        overview = try container.decode(String.self, forKey: .overview)
-//        release_date = try container.decode(String.self, forKey: .release_date)
-//        vote_average = try container.decode(Double.self, forKey: .vote_average)
-//        vote_count = try container.decode(Int.self, forKey: .vote_count)
-//        casts = try container.decode(Casts.self, forKey: .casts)
-//        poster_path = try container.decode(String.self, forKey: .poster_path)
-//        videos = try container.decode(Video.self, forKey: .videos)
-//    }
+
 }
 
 // Genre
